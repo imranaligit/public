@@ -11,7 +11,8 @@ outputFile = "predictions.csv"
 finalModelFile = "finalModel.sav"
 
 # Reading command line arguments first one is training dataset and second is prediction dataset
-if len(sys.argv) > 1:
+force = "-f" in sys.argv
+if (force and len(sys.argv) > 3) or (len(sys.argv) > 2):
     trainingFile, emailFile = sys.argv[-2], sys.argv[-1]
 else:
     trainingFile, emailFile = "trainemails.csv", "emails.csv"
@@ -27,7 +28,7 @@ modelAssessor = mA.ModelAssessor(mA.MET_F1, {mA.MET_F1: 'f1', mA.MET_ACCURACY: '
                                  dataReader.getTrainInput(), dataReader.getTrainOutput())
 
 # predict using dumped model or find best model and predict
-if os.path.exists(finalModelFile) and not ("-f" in sys.argv):
+if os.path.exists(finalModelFile) and not force:
     print("Predicting...")
     predictions = modelAssessor.predict(dataReader.getTestInput(), finalModelFile)
 else:
