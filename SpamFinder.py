@@ -11,7 +11,10 @@ outputFile = "predictions.csv"
 finalModelFile = "finalModel.sav"
 
 # Reading command line arguments first one is training dataset and second is prediction dataset
-trainingFile, emailFile = sys.argv[-2], sys.argv[-1]
+if len(sys.argv) > 1:
+    trainingFile, emailFile = sys.argv[-2], sys.argv[-1]
+else:
+    trainingFile, emailFile = "trainemails.csv", "emails.csv"
 
 # Requirement: Reading CSV files using pandas
 dataReader = dR.DataReader(trainingFile, emailFile)
